@@ -1,0 +1,193 @@
+/* Início dos Estilos CSS (Visual do Jogo Rserpente) */
+
+* {
+/* O asterisco seleciona TODOS os elementos da página */
+  box-sizing: border-box;
+  /* Faz com que bordas e espaçamentos não aumentem o tamanho total dos elementos */
+  margin: 0;
+  /* Remove todas as margens externas padrão do navegador */
+  padding: 0;
+  /* Remove todos os espaçamentos internos padrão do navegador */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  /* Define uma fonte moderna, limpa e legível */
+}
+
+body {
+/* Estiliza o fundo/corpo da página */
+  background-color: #0b0c10;
+  /* Define um fundo escuro estilo Cyberpunk para reduzir fadiga visual */
+  color: #00ffcc;
+  /* Define a cor padrão do texto como Verde Neon */
+  display: flex;
+  /* Usa o modo Flexbox para organizar os elementos no centro da tela */
+  flex-direction: column;
+  /* Organiza os elementos do corpo em uma coluna vertical (de cima para baixo) */
+  align-items: center;
+  /* Centraliza todos os elementos na horizontal */
+  justify-content: center;
+  /* Centraliza todos os elementos na vertical */
+  min-height: 100vh;
+  /* Garante que o fundo ocupe 100% da altura da tela */
+  overflow: hidden;
+  /* Esconde barras de rolagem para evitar distrações */
+}
+
+h1 {
+/* Estilo do título principal do jogo */
+  font-size: 2.2rem;
+  /* Tamanho de fonte destacado */
+  margin-bottom: 10px;
+  /* Espaço de 10 pixels abaixo do título */
+  text-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc;
+  /* Efeito de luz brilhante (Glow Neon) ao redor do texto */
+  letter-spacing: 2px;
+  /* Espaçamento entre as letras para dar visual moderno */
+}
+
+.controls-panel {
+/* Painel onde ficam o placar e os botões de dificuldade */
+  display: flex;
+  /* Exibe os itens lado a lado */
+  gap: 15px;
+  /* Cria um espaço de 15 pixels entre cada botão/placar */
+  margin-bottom: 15px;
+  /* Espaço de 15 pixels antes do quadro do jogo */
+  align-items: center;
+  /* Alinha os itens do painel pelo centro vertical */
+}
+
+.score-board {
+/* Caixinha onde mostra os pontos atuais */
+  font-size: 1.2rem;
+  /* Tamanho da fonte do placar */
+  font-weight: bold;
+  /* Deixa o texto em negrito */
+  background: #1f2833;
+  /* Fundo azul bem escuro para contrastar com a tela */
+  padding: 8px 16px;
+  /* Espaçamento interno (cima/baixo 8px, lados 16px) */
+  border-radius: 8px;
+  /* Arredonda as pontas da caixa */
+  border: 1px solid #00ffcc;
+  /* Borda fina verde neon */
+  box-shadow: 0 0 8px rgba(0, 255, 204, 0.3);
+  /* Sombra suave brilhante */
+}
+
+.btn {
+/* Estilo base para os botões de dificuldade */
+  background: #1f2833;
+  /* Fundo escuro igual ao do placar */
+  color: #ffffff;
+  /* Texto branco para boa leitura */
+  border: 2px solid #45a29e;
+  /* Borda verde-água */
+  padding: 8px 14px;
+  /* Espaçamento interno confortável para o clique */
+  border-radius: 8px;
+  /* Pontas arredondadas */
+  cursor: pointer;
+  /* Muda o ponteiro do mouse para a mãozinha ao passar por cima */
+  font-weight: bold;
+  /* Texto em negrito */
+  transition: all 0.2s ease;
+  /* Suaviza as mudanças de cor e brilho */
+}
+
+.btn:hover {
+/* Estilo acionado quando o usuário passa o mouse em cima do botão */
+  border-color: #00ffcc;
+  /* A borda muda para verde neon brilhante */
+  box-shadow: 0 0 12px #00ffcc;
+  /* Cria brilho neon em volta do botão */
+  transform: scale(1.05);
+  /* Aumenta o tamanho do botão levemente (efeito tátil) */
+}
+
+.btn.active {
+/* Estilo aplicado ao botão do nível que está selecionado no momento */
+  background: #00ffcc;
+  /* Fundo fica inteiramente verde neon */
+  color: #0b0c10;
+  /* Texto fica escuro para gerar auto contraste */
+  box-shadow: 0 0 15px #00ffcc;
+  /* Brilho neon intenso */
+}
+
+#game-container {
+/* Container que envolve o quadro do jogo */
+  position: relative;
+  /* Permite posicionar a mensagem de "Game Over" em cima dele */
+}
+
+canvas {
+/* O quadro onde o jogo é desenhado em tempo real */
+  background-color: #121212;
+  /* Fundo quase preto para alto contraste dos elementos coloridos */
+  border: 4px solid #00ffcc;
+  /* Borda neon grossa marcando os limites do jogo */
+  border-radius: 12px;
+  /* Cantos arredondados na tela do jogo */
+  box-shadow: 0 0 25px rgba(0, 255, 204, 0.4);
+  /* Brilho marcante ao redor de toda a tela */
+  display: block;
+  /* Garante que o canvas se comporte como um bloco rígido */
+}
+
+#game-over-screen {
+/* Tela de aviso quando o jogador perde */
+  position: absolute;
+  /* Posiciona sobreposta em cima do quadro do jogo */
+  top: 0;
+  /* Alinha no topo do container */
+  left: 0;
+  /* Alinha à esquerda do container */
+  width: 100%;
+  /* Ocupa toda a largura do jogo */
+  height: 100%;
+  /* Ocupa toda a altura do jogo */
+  background: rgba(11, 12, 16, 0.85);
+  /* Fundo escuro semitransparente para focar na mensagem */
+  display: flex;
+  /* Usa flexbox para centralizar os textos de game over */
+  flex-direction: column;
+  /* Coloca título, pontuação e botão um embaixo do outro */
+  align-items: center;
+  /* Centraliza horizontalmente */
+  justify-content: center;
+  /* Centraliza verticalmente */
+  border-radius: 12px;
+  /* Acompanha o arredondamento da tela do jogo */
+  visibility: hidden;
+  /* Mantém a tela escondida enquanto o jogo roda */
+}
+
+#game-over-screen.show {
+/* Classe ativada no JavaScript quando o jogador perde */
+  visibility: visible;
+  /* Torna a tela de game over visível instantaneamente */
+}
+
+#game-over-screen h2 {
+/* Título do Game Over */
+  color: #ff0055;
+  /* Cor Vermelho/Rosa Neon vibrante */
+  font-size: 2.5rem;
+  /* Tamanho grande de impacto */
+  text-shadow: 0 0 15px #ff0055;
+  /* Efeito de iluminação neon vermelha */
+  margin-bottom: 10px;
+  /* Espaço abaixo do título */
+}
+
+#game-over-screen p {
+/* Texto do placar final */
+  color: #ffffff;
+  /* Cor branca para leitura imediata */
+  font-size: 1.3rem;
+  /* Tamanho de letra mediano */
+  margin-bottom: 20px;
+  /* Espaço antes do botão de reiniciar */
+}
+
+/* Fim dos Estilos CSS */
