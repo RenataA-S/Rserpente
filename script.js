@@ -3,86 +3,85 @@
 // ==========================================
 
 const canvas = document.getElementById("snakeCanvas");
-// Captura o elemento <canvas> do HTML para poder desenhar nele
+// Busca e armazena o elemento <canvas> do HTML no script
 
 const ctx = canvas.getContext("2d");
-// Pega o "contexto 2D", que é a nossa ferramenta para desenhar formas na tela
+// Obtém o contexto de desenho 2D para renderizar as formas na tela
 
 const scoreElement = document.getElementById("score");
-// Captura a tag do placar simples da tela
+// Armazena a tag do placar em tempo real
 
 const finalScoreElement = document.getElementById("final-score");
-// Captura a tag que exibe a pontuação na tela de Game Over
+// Armazena a tag do placar na tela de fim de jogo
 
 const gameOverScreen = document.getElementById("game-over-screen");
-// Captura o quadro da tela de Game Over para mostrar/esconder
+// Armazena a camada visual da tela de Game Over
 
 const gridSize = 20;
-// Define o tamanho de cada "quadradinho" da grade do jogo em pixels (20x20)
+// Define o tamanho fixo de cada bloco da grade em 20x20 pixels
 
 const tileCount = canvas.width / gridSize;
-// Calcula quantas casas cabem na tela (400 dividido por 20 = 20 colunas e 20 linhas)
+// Calcula a quantidade de casas da grade (600 / 20 = 30 colunas e linhas)
 
 let snake = [];
-// Lista que vai guardar a posição x e y de cada parte do corpo da serpente
+// Lista para registrar as coordenadas das partes do corpo da serpente
 
 let food = { x: 0, y: 0 };
-// Objeto que armazena a posição X e Y atual da comida
+// Objeto que armazena a posição X e Y da fruta no mapa
 
 let obstacles = [];
-// Lista que guardará os obstáculos fixos do modo Difícil
+// Lista com as coordenadas das barreiras no modo difícil
 
 let dx = gridSize;
-// Velocidade/Direção inicial do movimento no eixo X (anda para a direita)
+// Velocidade e direção horizontal inicial (movimento para a direita)
 
 let dy = 0;
-// Velocidade/Direção inicial do movimento no eixo Y (parado na vertical)
+// Velocidade e direção vertical inicial (parado na vertical)
 
 let score = 0;
-// Guarda a pontuação atual da partida
+// Variável numérica que acumula a pontuação atual
 
 let gameLoopTimeout = null;
-// Guarda a referência do temporizador do jogo para poder pausar/parar
+// Guarda a referência do temporizador de execução do jogo
 
 let difficulty = 'easy';
-// Armazena qual a dificuldade atual (Padrão: fácil)
+// Guarda a dificuldade selecionada (Padrão: fácil)
 
 let speed = 150;
-// Tempo em milissegundos entre cada passo da serpente (quanto menor, mais rápido)
+// Define o tempo em milissegundos a cada passo (menor valor = jogo mais rápido)
 
 let changingDirection = false;
-// Trava de segurança para impedir que o jogador aperte duas teclas ao mesmo tempo e se atropele
+// Trava que impede dois comandos seguidos no mesmo quadro para evitar colisão acidental
 
 // ==========================================
 // 2. CONTROLE DE DIFICULDADES
 // ==========================================
 
 function setDifficulty(level) {
-// Função acionada ao clicar nos botões de dificuldade
+// Função disparada ao clicar nos botões de escolha de nível
   difficulty = level;
-  // Atualiza a variável de dificuldade com o nível escolhido ('easy', 'medium' ou 'hard')
+  // Atualiza a variável com o nível escolhido ('easy', 'medium' ou 'hard')
 
   document.getElementById("btn-easy").classList.remove("active");
-  // Remove a cor de selecionado do botão Fácil
+  // Remove o estado de selecionado do botão Fácil
   document.getElementById("btn-medium").classList.remove("active");
-  // Remove a cor de selecionado do botão Intermediário
+  // Remove o estado de selecionado do botão Intermediário
   document.getElementById("btn-hard").classList.remove("active");
-  // Remove a cor de selecionado do botão Difícil
+  // Remove o estado de selecionado do botão Difícil
 
   document.getElementById(`btn-${level}`).classList.add("active");
-  // Adiciona o estilo iluminado apenas ao botão selecionado no momento
+  // Adiciona o brilho de botão ativo apenas na opção clicada
 
-  // Ajusta a velocidade de atualização do jogo de acordo com a dificuldade:
   if (level === 'easy') {
-    speed = 150; // Velocidade tranquila/lenta
+    speed = 150; // Velocidade lenta para nível fácil
   } else if (level === 'medium') {
-    speed = 100; // Velocidade moderada
+    speed = 100; // Velocidade moderada para nível intermediário
   } else if (level === 'hard') {
-    speed = 60;  // Velocidade alta e frenética
+    speed = 60;  // Velocidade rápida para nível difícil
   }
 
   resetGame();
-  // Reinicia a partida imediatamente com as novas configurações aplicadas
+  // Reinicia a partida imediatamente aplicando a nova dificuldade
 }
 
 // ==========================================
@@ -90,38 +89,38 @@ function setDifficulty(level) {
 // ==========================================
 
 function resetGame() {
-// Função que prepara a mesa para um novo jogo limpo
+// Limpa e reinicia todos os dados para uma nova partida
   snake = [
-  // Define a serpente inicial com 3 pedaços no centro da tela
-    { x: 10 * gridSize, y: 10 * gridSize }, // Cabeça
-    { x: 9 * gridSize, y: 10 * gridSize },  // Corpo
-    { x: 8 * gridSize, y: 10 * gridSize }   // Cauda
+  // Define o corpo inicial da serpente com 3 gomos no centro da tela
+    { x: 15 * gridSize, y: 15 * gridSize }, // Posição da Cabeça
+    { x: 14 * gridSize, y: 15 * gridSize }, // Posição do Corpo
+    { x: 13 * gridSize, y: 15 * gridSize }  // Posição da Cauda
   ];
 
   score = 0;
-  // Zera os pontos
+  // Zera a pontuação no código
   scoreElement.innerText = score;
-  // Atualiza o texto do placar para zero na tela
+  // Atualiza o valor zero no placar visível na tela
 
   dx = gridSize;
-  // Aponta a direção inicial de movimento para a direita
+  // Restaura a direção inicial para a direita
   dy = 0;
-  // Garante que não está se movendo na vertical
+  // Zera o movimento vertical
 
   gameOverScreen.classList.remove("show");
-  // Esconde a tela de Game Over caso esteja visível
+  // Oculta o painel de Game Over se estiver aberto
 
   generateObstacles();
-  // Gera barreiras se o jogo estiver na dificuldade Difícil
+  // Cria os obstáculos do modo difícil se essa opção estiver ativa
 
   generateFood();
-  // Coloca a primeira frutinha no mapa
+  // Sorteia a posição da primeira fruta do jogo
 
   if (gameLoopTimeout) clearTimeout(gameLoopTimeout);
-  // Cancela qualquer ciclo do jogo anterior que estivesse ativo
+  // Interrompe qualquer temporizador antigo ainda em execução
 
   mainLoop();
-  // Dá o pontapé inicial e começa a rodar a lógica do jogo
+  // Dá o pontapé inicial no ciclo de funcionamento do jogo
 }
 
 // ==========================================
@@ -129,105 +128,107 @@ function resetGame() {
 // ==========================================
 
 function mainLoop() {
-// Esta função é o "coração" do jogo: executa repetidamente em ciclo
+// Função contínua que executa todos os passos do jogo em sequência
   if (hasGameEnded()) {
-  // Verifica se a serpente bateu ou perdeu o jogo
+  // Verifica se ocorreu alguma colisão fatal
     showGameOver();
-    // Se perdeu, mostra a tela de fim de jogo
+    // Exibe a tela de aviso de derrota
     return;
-    // Para a execução do ciclo imediatamente
+    // Interrompe o ciclo do jogo imediatamente
   }
 
   changingDirection = false;
-  // Libera o teclado para receber o próximo comando do jogador
+  // Libera a leitura de um novo comando de tecla
 
   clearCanvas();
-  // Apaga o desenho anterior da tela para pintar o novo quadro limpo
+  // Limpa o desenho do quadro anterior
 
   drawObstacles();
-  // Desenha as paredes/obstáculos no mapa (se houver)
+  // Desenha os obstáculos em tela (caso existam)
 
   drawFood();
-  // Desenha a frutinha na tela
+  // Desenha a fruta no mapa
 
   moveSnake();
-  // Atualiza as posições X e Y da serpente
+  // Atualiza as coordenadas de movimento da serpente
 
   drawSnake();
-  // Desenha a serpente em sua nova posição atualizada
+  // Desenha a serpente em sua nova posição
 
   gameLoopTimeout = setTimeout(mainLoop, speed);
-  // Chama esta mesma função novamente após o tempo definido na variável `speed`
+  // Reexecuta a função mainLoop repetidamente conforme a velocidade configurada
 }
 
 // ==========================================
-// 5. DESENHANDO ELEMENTOS NA TELA (VISUAL NEON)
+// 5. DESENHANDO ELEMENTOS NA TELA
 // ==========================================
 
 function clearCanvas() {
-// Limpa a tela inteira para o próximo quadro
+// Limpa toda a área útil da tela para evitar rastros visuais
   ctx.fillStyle = "#121212";
   // Define a cor de fundo interna do canvas
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-  // Pinta um retângulo preto ocupando toda a área da tela
+  // Pinta um retângulo cobrindo toda a área de 600x600 pixels
 }
 
 function drawSnake() {
-// Função responsável por pintar a serpente bloco por bloco
+// Pinta cada gomo da serpente com visual brilhante
   snake.forEach((part, index) => {
-  // Percorre cada pedaço do corpo da serpente
+  // Percorre todas as partes do corpo da serpente
     const isHead = index === 0;
-    // Checa se o pedaço atual é o primeiro elemento (a Cabeça)
+    // Identifica se o segmento atual é o primeiro elemento (a Cabeça)
 
-    // Se for a cabeça, usamos Amarelo Neon; se for o corpo, usamos Verde Neon
-    ctx.fillStyle = isHead ? "#ffff00" : "#00ffcc";
-    ctx.shadowColor = isHead ? "#ffff00" : "#00ffcc";
-    ctx.shadowBlur = 12; // Aplica o brilho Neon ao redor de cada parte
+    ctx.fillStyle = isHead ? "#ffee00" : "#00ffcc";
+    // Define a cor: Amarelo Neon para a Cabeça e Verde Neon para o Corpo
+    ctx.shadowColor = isHead ? "#ffee00" : "#00ffcc";
+    // Define a cor do brilho acompanhando o elemento
+    ctx.shadowBlur = 14;
+    // Aplica a intensidade de iluminação em volta do bloco
 
     ctx.fillRect(part.x, part.y, gridSize - 2, gridSize - 2);
-    // Desenha o bloco com 2px de margem para criar uma separação elegante entre os gomos
+    // Desenha o bloco com margem de 2px para separar cada gomo visualmente
 
     ctx.shadowBlur = 0;
-    // Reseta a sombra brilhante para não afetar outras renderizações do sistema
+    // Desliga a sombra brilhante para não afetar os demais desenhos da tela
   });
 }
 
 function drawFood() {
-// Função que pinta a fruta/comida na tela
+// Pinta a fruta na tela com destaque
   ctx.fillStyle = "#ff0055";
-  // Define a cor da fruta como Rosa/Vermelho Neon reluzente
+  // Define a cor da fruta como Rosa/Vermelho Neon
   ctx.shadowColor = "#ff0055";
   // Define a cor do brilho da fruta
-  ctx.shadowBlur = 15;
-  // Aplica um brilho mais intenso na fruta para atrair o olho do jogador
+  ctx.shadowBlur = 16;
+  // Aplica luz forte para chamar atenção do jogador
 
   ctx.fillRect(food.x, food.y, gridSize - 2, gridSize - 2);
-  // Desenha o quadradinho da fruta na posição sorteada
+  // Desenha o quadrado da fruta no local sorteado
 
   ctx.shadowBlur = 0;
-  // Limpa a configuração de brilho
+  // Limpa as configurações de brilho
 }
 
 function drawObstacles() {
-// Função que desenha as barreiras físicas no modo Difícil
+// Pinta as barreiras físicas do modo difícil
   if (difficulty !== 'hard') return;
-  // Se não estiver no nível difícil, não desenha nada e sai da função
+  // Se não estiver na dificuldade difícil, interrompe a função
 
   ctx.fillStyle = "#ff9900";
-  // Define a cor dos obstáculos como Laranja Neon
+  // Cor Laranja Neon para indicar perigo
   ctx.shadowColor = "#ff9900";
   // Cor do brilho do obstáculo
   ctx.shadowBlur = 10;
-  // Intensidade da luz do obstáculo
+  // Intensidade da sombra brilhante das barreiras
 
   obstacles.forEach(obstacle => {
-  // Percorre a lista de obstáculos existentes
+  // Percorre a lista de barreiras salvas
     ctx.fillRect(obstacle.x, obstacle.y, gridSize - 2, gridSize - 2);
-    // Desenha cada bloco de barreira no mapa
+    // Desenha o bloco da barreira na tela
   });
 
   ctx.shadowBlur = 0;
-  // Desliga o efeito de brilho
+  // Desativa o efeito de iluminação
 }
 
 // ==========================================
@@ -235,77 +236,76 @@ function drawObstacles() {
 // ==========================================
 
 function moveSnake() {
-// Calcula o movimento da serpente passo a passo
+// Calcula o deslocamento e o crescimento da serpente
   const head = { x: snake[0].x + dx, y: snake[0].y + dy };
-  // Cria uma nova posição para a cabeça baseada na velocidade/direção atual
+  // Calcula a nova posição da cabeça somando o deslocamento atual
 
-  // MODO FÁCIL: Efeito de Atravessar a Parede (Teleporte de Borda)
   if (difficulty === 'easy') {
-    if (head.x < 0) head.x = canvas.width - gridSize; // Se passar da esquerda, volta pela direita
-    if (head.x >= canvas.width) head.x = 0;            // Se passar da direita, volta pela esquerda
-    if (head.y < 0) head.y = canvas.height - gridSize;// Se passar por cima, volta por baixo
-    if (head.y >= canvas.height) head.y = 0;           // Se passar por baixo, volta por cima
+  // Regra do modo Fácil: Atravessar bordas (Teleporte)
+    if (head.x < 0) head.x = canvas.width - gridSize; // Se sair pela esquerda, reaparece na direita
+    if (head.x >= canvas.width) head.x = 0;            // Se sair pela direita, reaparece na esquerda
+    if (head.y < 0) head.y = canvas.height - gridSize;// Se sair por cima, reaparece por baixo
+    if (head.y >= canvas.height) head.y = 0;           // Se sair por baixo, reaparece por cima
   }
 
   snake.unshift(head);
-  // Coloca a nova cabeça no início da lista da serpente
+  // Adiciona a nova posição da cabeça no início da lista
 
   const hasEatenFood = snake[0].x === food.x && snake[0].y === food.y;
-  // Verifica se as coordenadas da cabeça são exatamente iguais às da comida
+  // Checa se a posição da cabeça é idêntica à posição da fruta
 
   if (hasEatenFood) {
-  // Se a cabeça encostou na fruta:
+  // Se alcançou a fruta:
     score += 10;
-    // Soma 10 pontos ao placar
+    // Adiciona 10 pontos ao placar
     scoreElement.innerText = score;
-    // Atualiza o valor do placar na interface de usuário
+    // Atualiza o texto do placar na tela
     generateFood();
-    // Sorteia o surgimento de uma nova comida em outro lugar
+    // Sorteia uma nova posição para a próxima fruta
   } else {
     snake.pop();
-    // Se NÃO comeu a comida, remove o último gomo do rabo (mantendo o tamanho constante ao andar)
+    // Se não comeu a fruta, remove o último gomo para manter o tamanho ao andar
   }
 }
 
 function hasGameEnded() {
-// Verifica se o jogador cometeu uma colisão fatal que encerra a partida
+// Checa todas as condições de derrota da partida
   
-  // Teste de Colisão com o Próprio Corpo:
   for (let i = 4; i < snake.length; i++) {
-  // Percorre do 5º gomo em diante (é impossível bater nos 3 primeiros gomos)
+  // Verifica se a cabeça bateu em qualquer parte do próprio corpo
     if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) {
-      return true; // Bateu no próprio corpo: Fim de Jogo!
+      return true; // Colisão com o próprio corpo detectada: Fim de jogo
     }
   }
 
-  // Teste de Colisão com as Paredes (Aplica apenas nos modos Intermediário e Difícil):
   if (difficulty !== 'easy') {
+  // Verifica colisão com as paredes externas (aplicado nos modos Intermediário e Difícil)
     const hitLeftWall = snake[0].x < 0;
     const hitRightWall = snake[0].x >= canvas.width;
-    const hitToptWall = snake[0].y < 0;
+    const hitTopWall = snake[0].y < 0;
     const hitBottomWall = snake[0].y >= canvas.height;
 
-    if (hitLeftWall || hitRightWall || hitToptWall || hitBottomWall) {
-      return true; // Bateu na parede externa: Fim de Jogo!
+    if (hitLeftWall || hitRightWall || hitTopWall || hitBottomWall) {
+      return true; // Colisão com a parede detectada: Fim de jogo
     }
   }
 
-  // Teste de Colisão com Obstáculos Laranjas (Aplica apenas no modo Difícil):
   if (difficulty === 'hard') {
+  // Verifica colisão com barreiras laranjas (aplicado apenas no modo Difícil)
     for (let obstacle of obstacles) {
       if (obstacle.x === snake[0].x && obstacle.y === snake[0].y) {
-        return true; // Bateu na barreira laranja: Fim de Jogo!
+        return true; // Colisão com obstáculo detectada: Fim de jogo
       }
     }
   }
 
-  return false; // Se não colidiu com nada, o jogo continua normalmente
+  return false; // Nenhuma colisão detectada: O jogo continua ativo
 }
 
 function showGameOver() {
-// Ativa e renderiza a tela final de derrota
+// Ativa e mostra a tela de fim de jogo
   finalScoreElement.innerText = score;
-  // Copia a pontuação final para dentro do painel de Game Over
+  // Atualiza o valor dos pontos no painel final
   gameOverScreen.classList.add("show");
   // Adiciona a classe CSS que torna a janela visível
 }
@@ -315,53 +315,53 @@ function showGameOver() {
 // ==========================================
 
 function randomTen(min, max) {
-// Função auxiliar que gera coordenadas aleatórias alinhadas à grade do jogo
+// Função auxiliar que gera coordenadas ajustadas aos quadros da grade
   return Math.floor((Math.random() * (max - min) + min) / gridSize) * gridSize;
 }
 
 function generateFood() {
-// Sorteia uma posição válida para a fruta
+// Sorteia uma posição válida para colocar a fruta
   food.x = randomTen(0, canvas.width - gridSize);
-  // Sorteia posição X
+  // Sorteia coordenada X dentro da área do jogo
   food.y = randomTen(0, canvas.height - gridSize);
-  // Sorteia posição Y
+  // Sorteia coordenada Y dentro da área do jogo
 
-  // Evita que a fruta apareça em cima da própria serpente:
   snake.forEach(part => {
+  // Garante que a fruta não surja dentro do corpo da serpente
     const hasEaten = part.x === food.x && part.y === food.y;
-    if (hasEaten) generateFood(); // Se nasceu em cima do corpo da cobra, sorteia de novo recursivamente
+    if (hasEaten) generateFood(); // Se a fruta surgiu sobre a serpente, sorteia novamente
   });
 
-  // Evita que a fruta apareça dentro de um obstáculo no modo difícil:
   if (difficulty === 'hard') {
+  // Garante que a fruta não surja dentro de uma barreira laranja
     obstacles.forEach(obstacle => {
-      if (obstacle.x === food.x && obstacle.y === food.y) generateFood(); // Sorteia de novo
+      if (obstacle.x === food.x && obstacle.y === food.y) generateFood(); // Sorteia novamente
     });
   }
 }
 
 function generateObstacles() {
-// Cria blocos de barreiras fixas aleatórias para o modo difícil
+// Gera barreiras fixas aleatórias para o modo difícil
   obstacles = [];
-  // Limpa a lista de obstáculos antigos
+  // Zera a lista de barreiras anteriores
 
   if (difficulty !== 'hard') return;
-  // Se não estiver no modo difícil, ignora e encerra a função
+  // Se não estiver no modo difícil, ignora o sorteio
 
-  const obstacleCount = 8;
-  // Quantidade total de blocos de barreiras a serem desenhados
+  const obstacleCount = 10;
+  // Quantidade de blocos de obstáculo a serem gerados no mapa 600x600
 
   for (let i = 0; i < obstacleCount; i++) {
-  // Loop para criar as 8 barreiras
+  // Loop para criar as barreiras
     let obsX = randomTen(0, canvas.width - gridSize);
     let obsY = randomTen(0, canvas.height - gridSize);
 
-    // Evita criar obstáculos muito próximos da área onde a cobra nasce (centro da tela)
-    const nearCenter = Math.abs(obsX - 200) < 60 && Math.abs(obsY - 200) < 60;
+    const nearCenter = Math.abs(obsX - 300) < 80 && Math.abs(obsY - 300) < 80;
+    // Evita posicionar obstáculos muito perto do ponto onde a serpente nasce (centro da tela)
 
     if (!nearCenter) {
       obstacles.push({ x: obsX, y: obsY });
-      // Adiciona a barreira à lista oficial
+      // Registra o obstáculo sorteado na lista
     }
   }
 }
@@ -371,58 +371,58 @@ function generateObstacles() {
 // ==========================================
 
 function changeDirection(event) {
-// Captura o pressionamento das teclas do teclado do usuário
-  const LEFT_KEY = 37;  // Código da Seta para Esquerda
-  const RIGHT_KEY = 39; // Código da Seta para Direita
-  const UP_KEY = 38;    // Código da Seta para Cima
-  const DOWN_KEY = 40;  // Código da Seta para Baixo
+// Captura as teclas pressionadas para alterar a direção do movimento
+  const LEFT_KEY = 37;  // Código da Seta Esquerda
+  const RIGHT_KEY = 39; // Código da Seta Direita
+  const UP_KEY = 38;    // Código da Seta Para Cima
+  const DOWN_KEY = 40;  // Código da Seta Para Baixo
 
-  const A_KEY = 65;     // Tecla 'A' (Esquerda)
-  const D_KEY = 68;     // Tecla 'D' (Direita)
-  const W_KEY = 87;     // Tecla 'W' (Cima)
-  const S_KEY = 83;     // Tecla 'S' (Baixo)
+  const A_KEY = 65;     // Código da Tecla A (Esquerda)
+  const D_KEY = 68;     // Código da Tecla D (Direita)
+  const W_KEY = 87;     // Código da Tecla W (Para Cima)
+  const S_KEY = 83;     // Código da Tecla S (Para Baixo)
 
   if (changingDirection) return;
-  // Se já foi registrado um comando neste passo, ignora comandos extras até o próximo quadro
+  // Se um comando já foi lido neste ciclo, descarta outros até o próximo quadro
 
   const keyPressed = event.keyCode;
-  // Descobre o número/código da tecla que o jogador apertou
+  // Lê o código da tecla acionada pelo usuário
 
   const goingUp = dy === -gridSize;
   const goingDown = dy === gridSize;
   const goingRight = dx === gridSize;
   const goingLeft = dx === -gridSize;
 
-  // Garante que a serpente não consiga dar uma "volta de 180° instantânea" sobre si mesma:
+  // Evita que a serpente faça uma curva direta de 180 graus sobre si mesma:
   if ((keyPressed === LEFT_KEY || keyPressed === A_KEY) && !goingRight) {
-    dx = -gridSize; // Mudar para esquerda
+    dx = -gridSize; // Vira para a Esquerda
     dy = 0;
     changingDirection = true;
   }
 
   if ((keyPressed === UP_KEY || keyPressed === W_KEY) && !goingDown) {
     dx = 0;
-    dy = -gridSize; // Mudar para cima
+    dy = -gridSize; // Vira para Cima
     changingDirection = true;
   }
 
   if ((keyPressed === RIGHT_KEY || keyPressed === D_KEY) && !goingLeft) {
-    dx = gridSize;  // Mudar para direita
+    dx = gridSize;  // Vira para a Direita
     dy = 0;
     changingDirection = true;
   }
 
   if ((keyPressed === DOWN_KEY || keyPressed === S_KEY) && !goingUp) {
     dx = 0;
-    dy = gridSize;  // Mudar para baixo
+    dy = gridSize;  // Vira para Baixo
     changingDirection = true;
   }
 }
 
-// Adiciona o ouvinte de eventos globais: toda vez que qualquer tecla for apertada, chama `changeDirection`
 document.addEventListener("keydown", changeDirection);
+// Registra o leitor de eventos para capturar qualquer tecla pressionada no navegador
 
-// Inicia o jogo automaticamente assim que a página é carregada pela primeira vez
 resetGame();
+// Executa o início do jogo ao carregar o código na página
 
 // Fim do Código JavaScript

@@ -1,57 +1,73 @@
 <!DOCTYPE html>
-<!-- Define o tipo de documento como HTML5 -->
+<!-- Define que o arquivo segue o padrão moderno do HTML5 -->
 <html lang="pt-BR">
-<!-- Define que o idioma principal da página é o português do Brasil -->
+<!-- Define o idioma da página como Português do Brasil -->
 <head>
-<!-- Início do cabeçalho da página (onde ficam as configurações e conexões de arquivos) -->
+<!-- Início do cabeçalho de configurações da página -->
   <meta charset="UTF-8">
-  <!-- Define a codificação de caracteres para UTF-8, permitindo acentos e símbolos -->
+  <!-- Permite a exibição correta de acentos e caracteres especiais -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Ajusta o tamanho da tela para funcionar perfeitamente em celulares e computadores -->
+  <!-- Ajusta o layout para se adaptar a diferentes tamanhos de tela -->
   <title>Rserpente Neon High-Focus</title>
-  <!-- Define o título que aparece na aba do navegador -->
+  <!-- Título do jogo que é exibido na aba do navegador -->
   
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐍</text></svg>">
+  <!-- Favicon com logo de serpente embutido diretamente no HTML -->
+
   <link rel="stylesheet" href="style.css">
-  <!-- Conecta o arquivo CSS externo que contém todas as regras visuais e cores -->
+  <!-- Importa o arquivo de estilos visuais em CSS -->
 </head>
+<!-- Fim do cabeçalho de configurações -->
 <body>
-<!-- Início da Estrutura Visual HTML -->
+<!-- Início do corpo visível da aplicação -->
 
   <h1>Rserpente</h1>
-  <!-- Título principal visível na parte superior do jogo -->
+  <!-- Título principal em destaque na parte superior da tela -->
 
   <div class="controls-panel">
-  <!-- Painel de Controles e Dificuldades -->
+  <!-- Bloco container que agrupa o placar de pontos e os botões de opção -->
     <div class="score-board">Pontos: <span id="score">0</span></div>
-    <!-- Exibe a pontuação dinamicamente dentro do span id="score" -->
+    <!-- Exibe o texto de pontos e o número atualizado via JavaScript -->
     
     <button class="btn active" id="btn-easy" onclick="setDifficulty('easy')">Fácil</button>
-    <!-- Botão do modo Fácil. Inicia marcado como ativo -->
+    <!-- Botão para selecionar a dificuldade Fácil -->
     
     <button class="btn" id="btn-medium" onclick="setDifficulty('medium')">Intermediário</button>
-    <!-- Botão do modo Intermediário -->
+    <!-- Botão para selecionar a dificuldade Intermediária -->
     
     <button class="btn" id="btn-hard" onclick="setDifficulty('hard')">Difícil</button>
-    <!-- Botão do modo Difícil -->
+    <!-- Botão para selecionar a dificuldade Difícil -->
   </div>
+  <!-- Fim do painel de controles e opções -->
 
   <div id="game-container">
-  <!-- Container principal do jogo -->
-    <canvas id="snakeCanvas" width="400" height="400"></canvas>
-    <!-- Quadro 400x400 pixels onde o JavaScript vai desenhar a serpente e as frutas -->
+  <!-- Container principal que envolve a área de jogo e as telas de aviso -->
+    <canvas id="snakeCanvas" width="600" height="600"></canvas>
+    <!-- Tela do jogo aumentada para 600x600 pixels para melhor visualização -->
 
     <div id="game-over-screen">
-    <!-- Overlay com a mensagem de fim de jogo -->
+    <!-- Camada de aviso que aparece sobre o jogo ao perder a partida -->
       <h2>GAME OVER</h2>
-      <!-- Título de aviso de derrota -->
+      <!-- Título de alerta de fim de jogo em cor chamativa -->
       <p>Sua pontuação: <span id="final-score">0</span></p>
-      <!-- Exibe os pontos finais conquistados -->
+      <!-- Mostra a quantidade de pontos finais alcançados -->
       <button class="btn" onclick="resetGame()">Jogar Novamente</button>
-      <!-- Botão que chama a função do JS para reiniciar a partida -->
+      <!-- Botão que aciona a função para reiniciar a partida -->
     </div>
+    <!-- Fim da tela de Game Over -->
   </div>
+  <!-- Fim do container do jogo -->
+
+  <footer class="footer">
+  <!-- Seção de rodapé da página -->
+    <p>By Renata A.S</p>
+    <!-- Créditos de autoria do projeto com destaque visual -->
+  </footer>
+  <!-- Fim do rodapé -->
 
   <script src="script.js"></script>
-  <!-- Conecta o arquivo JavaScript externo que contém toda a lógica de funcionamento -->
+  <!-- Importa o arquivo com a lógica do jogo em JavaScript -->
 </body>
+<!-- Fim do corpo visível da aplicação -->
 </html>
+<!-- Fim do documento HTML -->

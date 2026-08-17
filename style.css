@@ -1,193 +1,225 @@
 /* Início dos Estilos CSS (Visual do Jogo Rserpente) */
 
 * {
-/* O asterisco seleciona TODOS os elementos da página */
+/* Selecionador universal: aplica as regras em todos os elementos da página */
   box-sizing: border-box;
-  /* Faz com que bordas e espaçamentos não aumentem o tamanho total dos elementos */
+  /* Mantém o tamanho exato dos elementos mesmo adicionando bordas ou espaçamentos */
   margin: 0;
-  /* Remove todas as margens externas padrão do navegador */
+  /* Remove as margens externas padrão de todos os elementos */
   padding: 0;
-  /* Remove todos os espaçamentos internos padrão do navegador */
+  /* Remove os espaçamentos internos padrão de todos os elementos */
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  /* Define uma fonte moderna, limpa e legível */
+  /* Define uma fonte limpa, sem serifas e de fácil leitura */
 }
 
 body {
-/* Estiliza o fundo/corpo da página */
+/* Estilização do fundo e estrutura geral da página */
   background-color: #0b0c10;
-  /* Define um fundo escuro estilo Cyberpunk para reduzir fadiga visual */
+  /* Fundo escuro tom Cyberpunk que reduz a fadiga visual */
   color: #00ffcc;
-  /* Define a cor padrão do texto como Verde Neon */
+  /* Cor principal do texto em Verde Neon chamativo */
   display: flex;
-  /* Usa o modo Flexbox para organizar os elementos no centro da tela */
+  /* Ativa o modo de organização Flexbox */
   flex-direction: column;
-  /* Organiza os elementos do corpo em uma coluna vertical (de cima para baixo) */
+  /* Organiza todos os blocos na vertical, de cima para baixo */
   align-items: center;
   /* Centraliza todos os elementos na horizontal */
   justify-content: center;
   /* Centraliza todos os elementos na vertical */
   min-height: 100vh;
-  /* Garante que o fundo ocupe 100% da altura da tela */
-  overflow: hidden;
-  /* Esconde barras de rolagem para evitar distrações */
+  /* Garante ocupação de no mínimo 100% da altura da tela */
+  padding: 20px 0;
+  /* Adiciona espaçamento superior e inferior para evitar rolagem colada */
 }
 
 h1 {
-/* Estilo do título principal do jogo */
-  font-size: 2.2rem;
-  /* Tamanho de fonte destacado */
-  margin-bottom: 10px;
-  /* Espaço de 10 pixels abaixo do título */
-  text-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc;
-  /* Efeito de luz brilhante (Glow Neon) ao redor do texto */
-  letter-spacing: 2px;
-  /* Espaçamento entre as letras para dar visual moderno */
+/* Estilização do título do jogo */
+  font-size: 2.8rem;
+  /* Aumenta o tamanho do texto para gerar forte hierarquia visual */
+  margin-bottom: 15px;
+  /* Espaço de 15 pixels abaixo do título */
+  color: #ffee00;
+  /* Cor Amarelo Neon de alto impacto para prender a atenção imediata */
+  text-shadow: 0 0 12px #ffee00, 0 0 24px #ffee00;
+  /* Efeito de brilho aceso brilhante em volta do título */
+  letter-spacing: 3px;
+  /* Espaçamento entre as letras para rápida identificação */
 }
 
 .controls-panel {
-/* Painel onde ficam o placar e os botões de dificuldade */
+/* Estilização do painel de botões e placar */
   display: flex;
-  /* Exibe os itens lado a lado */
+  /* Alinha os itens internamente lado a lado */
   gap: 15px;
-  /* Cria um espaço de 15 pixels entre cada botão/placar */
+  /* Espaçamento de 15 pixels entre cada item do painel */
   margin-bottom: 15px;
-  /* Espaço de 15 pixels antes do quadro do jogo */
+  /* Espaço de 15 pixels antes de começar o quadro de jogo */
   align-items: center;
-  /* Alinha os itens do painel pelo centro vertical */
+  /* Centraliza os botões e o placar na vertical */
 }
 
 .score-board {
-/* Caixinha onde mostra os pontos atuais */
-  font-size: 1.2rem;
-  /* Tamanho da fonte do placar */
+/* Estilo da caixa que exibe a pontuação */
+  font-size: 1.3rem;
+  /* Tamanho de letra ligeiramente ampliado */
   font-weight: bold;
-  /* Deixa o texto em negrito */
+  /* Texto em negrito para destacar a informação de pontos */
   background: #1f2833;
-  /* Fundo azul bem escuro para contrastar com a tela */
-  padding: 8px 16px;
-  /* Espaçamento interno (cima/baixo 8px, lados 16px) */
+  /* Fundo escuro em tom cinza-azulado de alto contraste */
+  padding: 10px 18px;
+  /* Espaçamento interno da caixa (cima/baixo e lados) */
   border-radius: 8px;
-  /* Arredonda as pontas da caixa */
-  border: 1px solid #00ffcc;
-  /* Borda fina verde neon */
-  box-shadow: 0 0 8px rgba(0, 255, 204, 0.3);
-  /* Sombra suave brilhante */
+  /* Bordas arredondadas suaves */
+  border: 2px solid #ffee00;
+  /* Borda amarela chamativa de rápida localização */
+  color: #ffee00;
+  /* Texto em Amarelo Neon para destaque de foco */
+  box-shadow: 0 0 10px rgba(255, 238, 0, 0.4);
+  /* Sombra brilhante amarela em volta da caixa */
 }
 
 .btn {
-/* Estilo base para os botões de dificuldade */
+/* Estilo base de todos os botões de controle */
   background: #1f2833;
-  /* Fundo escuro igual ao do placar */
+  /* Fundo escuro combinando com o painel */
   color: #ffffff;
-  /* Texto branco para boa leitura */
+  /* Cor do texto em branco puro para leitura clara */
   border: 2px solid #45a29e;
-  /* Borda verde-água */
-  padding: 8px 14px;
-  /* Espaçamento interno confortável para o clique */
+  /* Borda verde-água suave */
+  padding: 10px 16px;
+  /* Tamanho de clique confortável e visível */
   border-radius: 8px;
-  /* Pontas arredondadas */
+  /* Pontas arredondadas nos botões */
   cursor: pointer;
-  /* Muda o ponteiro do mouse para a mãozinha ao passar por cima */
+  /* Transforma o ponteiro do mouse na mãozinha de clique */
   font-weight: bold;
-  /* Texto em negrito */
+  /* Texto dos botões em negrito */
   transition: all 0.2s ease;
-  /* Suaviza as mudanças de cor e brilho */
+  /* Suaviza as transições de efeitos visuais ao passar o mouse */
 }
 
 .btn:hover {
-/* Estilo acionado quando o usuário passa o mouse em cima do botão */
-  border-color: #00ffcc;
-  /* A borda muda para verde neon brilhante */
-  box-shadow: 0 0 12px #00ffcc;
-  /* Cria brilho neon em volta do botão */
+/* Estilo aplicado quando o ponteiro do mouse passa por cima do botão */
+  border-color: #ffee00;
+  /* A borda ganha cor amarela chamativa */
+  color: #ffee00;
+  /* O texto ganha a cor amarela */
+  box-shadow: 0 0 12px #ffee00;
+  /* Cria efeito de iluminação acesa no botão */
   transform: scale(1.05);
-  /* Aumenta o tamanho do botão levemente (efeito tátil) */
+  /* Aumenta o botão levemente para feedback tátil direto */
 }
 
 .btn.active {
-/* Estilo aplicado ao botão do nível que está selecionado no momento */
-  background: #00ffcc;
-  /* Fundo fica inteiramente verde neon */
+/* Estilo do botão selecionado no momento */
+  background: #ffee00;
+  /* Fundo inteiramente Amarelo Neon */
   color: #0b0c10;
-  /* Texto fica escuro para gerar auto contraste */
-  box-shadow: 0 0 15px #00ffcc;
-  /* Brilho neon intenso */
+  /* Texto em cor escura para gerar contraste máximo de leitura */
+  border-color: #ffee00;
+  /* Borda amarela acompanhando o fundo */
+  box-shadow: 0 0 16px #ffee00;
+  /* Brilho intenso indicando o modo que está ativo */
 }
 
 #game-container {
-/* Container que envolve o quadro do jogo */
+/* Container relativo do quadro de jogo */
   position: relative;
-  /* Permite posicionar a mensagem de "Game Over" em cima dele */
+  /* Permite sobrepor a tela de Game Over exatamente no mesmo local */
 }
 
 canvas {
-/* O quadro onde o jogo é desenhado em tempo real */
+/* Área de desenho do jogo em tempo real */
   background-color: #121212;
-  /* Fundo quase preto para alto contraste dos elementos coloridos */
-  border: 4px solid #00ffcc;
-  /* Borda neon grossa marcando os limites do jogo */
+  /* Fundo quase preto para destaque dos objetos coloridos */
+  border: 4px solid #ffee00;
+  /* Borda amarela chamativa marcando todo o limite do jogo */
   border-radius: 12px;
-  /* Cantos arredondados na tela do jogo */
-  box-shadow: 0 0 25px rgba(0, 255, 204, 0.4);
-  /* Brilho marcante ao redor de toda a tela */
+  /* Cantos arredondados na moldura do jogo */
+  box-shadow: 0 0 30px rgba(255, 238, 0, 0.35);
+  /* Brilho reluzente contornando o quadro principal */
   display: block;
-  /* Garante que o canvas se comporte como um bloco rígido */
+  /* Mantém o elemento rígido sem quebras involuntárias */
 }
 
 #game-over-screen {
-/* Tela de aviso quando o jogador perde */
+/* Painel sobreposto exibido ao perder a partida */
   position: absolute;
-  /* Posiciona sobreposta em cima do quadro do jogo */
+  /* Posicionamento absoluto fixado sobre o jogo */
   top: 0;
-  /* Alinha no topo do container */
+  /* Alinha no topo da área do jogo */
   left: 0;
-  /* Alinha à esquerda do container */
+  /* Alinha na esquerda da área do jogo */
   width: 100%;
-  /* Ocupa toda a largura do jogo */
+  /* Cobre 100% da largura do canvas */
   height: 100%;
-  /* Ocupa toda a altura do jogo */
-  background: rgba(11, 12, 16, 0.85);
-  /* Fundo escuro semitransparente para focar na mensagem */
+  /* Cobre 100% da altura do canvas */
+  background: rgba(11, 12, 16, 0.9);
+  /* Fundo escuro com 90% de opacidade para ocultar distrações */
   display: flex;
-  /* Usa flexbox para centralizar os textos de game over */
+  /* Ativa modo Flexbox para alinhar as mensagens */
   flex-direction: column;
-  /* Coloca título, pontuação e botão um embaixo do outro */
+  /* Empilha o título, placar e botão em linha vertical */
   align-items: center;
-  /* Centraliza horizontalmente */
+  /* Centraliza os elementos na horizontal */
   justify-content: center;
-  /* Centraliza verticalmente */
+  /* Centraliza os elementos na vertical */
   border-radius: 12px;
-  /* Acompanha o arredondamento da tela do jogo */
+  /* Mantém a mesma curvatura das bordas do jogo */
   visibility: hidden;
-  /* Mantém a tela escondida enquanto o jogo roda */
+  /* Oculta o painel enquanto a partida estiver ativa */
 }
 
 #game-over-screen.show {
-/* Classe ativada no JavaScript quando o jogador perde */
+/* Classe acionada via JavaScript quando o jogador perde */
   visibility: visible;
-  /* Torna a tela de game over visível instantaneamente */
+  /* Torna a tela de aviso totalmente visível */
 }
 
 #game-over-screen h2 {
-/* Título do Game Over */
+/* Título de aviso de Game Over */
   color: #ff0055;
-  /* Cor Vermelho/Rosa Neon vibrante */
-  font-size: 2.5rem;
-  /* Tamanho grande de impacto */
-  text-shadow: 0 0 15px #ff0055;
-  /* Efeito de iluminação neon vermelha */
-  margin-bottom: 10px;
-  /* Espaço abaixo do título */
+  /* Cor Rosa/Vermelho Neon de alerta imediato */
+  font-size: 3rem;
+  /* Texto bem grande de alto impacto */
+  text-shadow: 0 0 20px #ff0055;
+  /* Efeito de brilho neon pulsante na mensagem */
+  margin-bottom: 12px;
+  /* Espaço de 12 pixels abaixo do alerta */
 }
 
 #game-over-screen p {
-/* Texto do placar final */
+/* Texto da pontuação obtida na tela final */
   color: #ffffff;
-  /* Cor branca para leitura imediata */
-  font-size: 1.3rem;
-  /* Tamanho de letra mediano */
-  margin-bottom: 20px;
-  /* Espaço antes do botão de reiniciar */
+  /* Cor branca para leitura direta */
+  font-size: 1.5rem;
+  /* Tamanho de fonte aumentado */
+  margin-bottom: 25px;
+  /* Espaço de 25 pixels antes do botão de reiniciar */
+}
+
+.footer {
+/* Seção do rodapé da página */
+  margin-top: 20px;
+  /* Espaçamento de 20 pixels acima do rodapé */
+  padding: 10px;
+  /* Preenchimento interno suave */
+  text-align: center;
+  /* Centraliza o texto no meio da tela */
+}
+
+.footer p {
+/* Texto de créditos no rodapé */
+  color: #ffee00;
+  /* Amarelo Neon vibrante de alto destaque visual */
+  font-size: 1.2rem;
+  /* Tamanho de fonte destacado */
+  font-weight: bold;
+  /* Texto em negrito para facilitar a leitura */
+  letter-spacing: 2px;
+  /* Aumenta o espaçamento entre letras */
+  text-shadow: 0 0 10px rgba(255, 238, 0, 0.6);
+  /* Brilho suave em volta do nome de autoria */
 }
 
 /* Fim dos Estilos CSS */
