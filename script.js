@@ -21,7 +21,7 @@ const gridSize = 20;
 // Define o tamanho fixo de cada bloco da grade em 20x20 pixels
 
 const tileCount = canvas.width / gridSize;
-// Calcula a quantidade de casas da grade (600 / 20 = 30 colunas e linhas)
+// Calcula a quantidade de casas da grade (700 / 20 = 35 colunas e linhas)
 
 let snake = [];
 // Lista para registrar as coordenadas das partes do corpo da serpente
@@ -90,11 +90,14 @@ function setDifficulty(level) {
 
 function resetGame() {
 // Limpa e reinicia todos os dados para uma nova partida
+  const startX = Math.floor(tileCount / 2) * gridSize;
+  const startY = Math.floor(tileCount / 2) * gridSize;
+
   snake = [
   // Define o corpo inicial da serpente com 3 gomos no centro da tela
-    { x: 15 * gridSize, y: 15 * gridSize }, // Posição da Cabeça
-    { x: 14 * gridSize, y: 15 * gridSize }, // Posição do Corpo
-    { x: 13 * gridSize, y: 15 * gridSize }  // Posição da Cauda
+    { x: startX, y: startY },                 // Posição da Cabeça
+    { x: startX - gridSize, y: startY },      // Posição do Corpo
+    { x: startX - (2 * gridSize), y: startY } // Posição da Cauda
   ];
 
   score = 0;
@@ -168,7 +171,7 @@ function clearCanvas() {
   ctx.fillStyle = "#121212";
   // Define a cor de fundo interna do canvas
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-  // Pinta um retângulo cobrindo toda a área de 600x600 pixels
+  // Pinta um retângulo cobrindo toda a área de 700x700 pixels
 }
 
 function drawSnake() {
@@ -348,15 +351,18 @@ function generateObstacles() {
   if (difficulty !== 'hard') return;
   // Se não estiver no modo difícil, ignora o sorteio
 
-  const obstacleCount = 10;
-  // Quantidade de blocos de obstáculo a serem gerados no mapa 600x600
+  const obstacleCount = 12;
+  // Quantidade de blocos de obstáculo a serem gerados no mapa 700x700
+
+  const centerX = canvas.width / 2;
+  const centerY = canvas.height / 2;
 
   for (let i = 0; i < obstacleCount; i++) {
   // Loop para criar as barreiras
     let obsX = randomTen(0, canvas.width - gridSize);
     let obsY = randomTen(0, canvas.height - gridSize);
 
-    const nearCenter = Math.abs(obsX - 300) < 80 && Math.abs(obsY - 300) < 80;
+    const nearCenter = Math.abs(obsX - centerX) < 100 && Math.abs(obsY - centerY) < 100;
     // Evita posicionar obstáculos muito perto do ponto onde a serpente nasce (centro da tela)
 
     if (!nearCenter) {
